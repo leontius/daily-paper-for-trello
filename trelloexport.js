@@ -310,14 +310,24 @@ function exportLog() {
         var context = "";
         var n = "\r";
         var space = " ";
+        var p = "•";
 
         context += date + n;
         context += "===今日工作内容===" + n;
         var i = 1;
         $.each(worksheet.data, function (k, row) {
+            console.log(row)
             if (row[0] === 'In Progress') {
                 context += i + space + row[1] + n;
-                context += space + space + row[2] + n;
+                var t = row[2];
+                if (t.indexOf("\n") >= 0) {
+                    var tArray = t.split("\n");
+                    $.each(tArray, function (i, tRow) {
+                        context += space + p + space + tRow + n;
+                    });
+                } else {
+                    context += space + p + space + row[2] + n;
+                }
                 i++;
             }
         });
